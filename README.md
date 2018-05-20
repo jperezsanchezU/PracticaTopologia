@@ -131,7 +131,7 @@ Condition2: Proximidad a comunicaciones e infrastructuras (si se da más de una)
 	
 BldgType: tipo de vivienda
 		
-       1Fam	  Unifamiliar independiente
+       1Fam	Unifamiliar independiente
        2FmCon	Vivienda convertida en dos viviendas, inicialmente construida como unifamiliar
        Duplx	Dúplex
        TwnhsE	Vivienda adosadada esquina
@@ -180,20 +180,20 @@ YearRemodAdd: Fecha de renovación (la de construcción si no ha sido renovada)
 
 RoofStyle: Tipo de tejado
 
-       Flat	    Plano
-       Gable	  Tejado inclinado, 2 lados
+       Flat	Plano
+       Gable	Tejado inclinado, 2 lados
        Gambrel	Granero
-       Hip	    Tejado inclinado, 4 lados
+       Hip	Tejado inclinado, 4 lados
        Mansard	Buhardilla
-       Shed	    Cobertizo
+       Shed	Cobertizo
 		
 RoofMatl: Material del tejado
 
        ClyTile	Teja
        CompShg	Grava
        Membran	Membrana
-       Metal	  Metal
-       Roll	    Rollo de alquitrán.
+       Metal	Metal
+       Roll	Rollo de alquitrán
        Tar&Grv	Grava y alquitrán
        WdShake	Tablones de madera
        WdShngl  Tejas de madera
@@ -204,16 +204,16 @@ Exterior1st: Material de construcción exterior de la casa
        AsphShn	Asfalto
        BrkComm	Ladrillo normal
        BrkFace	Ladrillo visto
-       CBlock	  Bloque de hormigón
+       CBlock	Bloque de hormigón
        CemntBd	Cemento
        HdBoard	Hard Board
        ImStucc	Imitación estuco
        MetalSd	Metalico
-       Other	  Otro
+       Other	Otro
        Plywood	Plywood
        PreCast	PreCast	
-       Stone	  Piedra
-       Stucco	  Estuco
+       Stone	Piedra
+       Stucco	Estuco
        VinylSd	Vinilo
        Wd Sdng	Tablones de madera
        WdShing	Madera con forma
@@ -224,16 +224,16 @@ Exterior2nd: Covertura exterior de la casa (si otro material del anterior)
        AsphShn	Asfalto
        BrkComm	Ladrillo normal
        BrkFace	Ladrillo visto
-       CBlock	  Bloque de cemento
+       CBlock	Bloque de cemento
        CemntBd	Cemento
        HdBoard	Hard Board
        ImStucc	Imitación estuco
        MetalSd	Metalico
-       Other	  Otro
+       Other	Otro
        Plywood	Plywood
        PreCast	PreCast	
-       Stone	  Piedra
-       Stucco	  Estuco
+       Stone	Piedra
+       Stucco	Estuco
        VinylSd	Vinilo
        Wd Sdng	Tablones de madera
        WdShing	Madera con forma
@@ -242,9 +242,9 @@ MasVnrType: Tipo de muros interiores
 
        BrkCmn   Ladrillo común
        BrkFace	Ladrillo visto
-       CBlock	  Bloque de cemento
-       None	    Ninguno
-       Stone	  Piedra
+       CBlock	Bloque de cemento
+       None	Ninguno
+       Stone	Piedra
 	
 MasVnrArea: Área de construcción en pies cuadrados
 
@@ -269,9 +269,9 @@ Foundation: Tipo de cimientos
        BrkTil	Ladrillo y azulejo
        CBlock	Piedras, ladrillos, etc..
        PConc	Hormigón
-       Slab	  Losas
+       Slab	Losas
        Stone	Piedra
-       Wood	  Madera
+       Wood	Madera
 		
 BsmtQual: Altura de los cimientos
 
@@ -280,7 +280,7 @@ BsmtQual: Altura de los cimientos
        TA	Normal (80-89 pulgadas)
        Fa	Regular (70-79 pulgadas)
        Po	Pobre (menos de 70 pulgadas)
-       NA Sin cimientos
+       NA 	Sin cimientos
 		
 BsmtCond: Estado general de los cimientos
 
@@ -307,7 +307,7 @@ BsmtFinType1: Clasificación de habitabilidad del sótano
        Rec	Habitabilidad media como trastero
        LwQ	Baja calidad
        Unf	No terminado
-       NA	  Sin sótano
+       NA	Sin sótano
 		
 BsmtFinSF1: Tamaño del área sótano en pies cuadrados terminados
 
@@ -319,7 +319,7 @@ BsmtFinType2: Clasificación de habitabilidad del sótano (si varios tipos)
        Rec	Habitabilidad media como trastero
        LwQ	Baja calidad
        Unf	No terminado
-       NA	  Sin sótano
+       NA	Sin sótano
 
 BsmtFinSF2: Tamaño de la segundo área sótano en pies cuadrados terminados
 
@@ -329,12 +329,12 @@ TotalBsmtSF: Tamaño total del sótano
 
 Heating: Tipo de calefacción
 		
-       Floor  Suelo radiante
-       GasA	  Calefacción por aire, usando gas
-       GasW	  Calefacción y agua caliente con gas
-       Grav	  Horno de gravedad (caldera de aire)
-       OthW	  Agua caliente o vapor no usando gas
-       Wall	  Muro calefactor
+       Floor	Suelo radiante
+       GasA	Calefacción por aire, usando gas
+       GasW	Calefacción y agua caliente con gas
+       Grav	Horno de gravedad (caldera de aire)
+       OthW	Agua caliente o vapor no usando gas
+       Wall	Muro calefactor
 		
 HeatingQC: Calidad y estado de la calefacción
 
@@ -355,7 +355,7 @@ Electrical: Instalación eléctrica
        FuseA	Caja de fusibles de más de 60 amperios (Normal)	
        FuseF	Caja de fusibles de 60 amperios o casi (regular)	
        FuseP	Caja de fusibles de menos de 60, (pobre)
-       Mix	  Mixto
+       Mix	Mixto
 		
 1stFlrSF: Tamaño primera planta
  
@@ -411,13 +411,13 @@ FireplaceQu: Calidad de la hogar (chimenea)
 		
 GarageType: Ubicación del garaje
 		
-       2Types	  Más de un tipo de garaje
-       Attchd	  Adosado a la casa
+       2Types	Más de un tipo de garaje
+       Attchd	Adosado a la casa
        Basment	Garaje de sótano
        BuiltIn	Empotrado (garaje parte de la casa, normalmente con una habitación arriba)
        CarPort	Tejadillo para coche
-       Detchd	  Separado de la casa
-       NA	      Sin garaje
+       Detchd	Separado de la casa
+       NA	Sin garaje
 		
 GarageYrBlt: Año de construcción del garaje
 		
@@ -426,7 +426,7 @@ GarageFinish: Terminación interior del garaje
        Fin	Terminado
        RFn	Casi terminado
        Unf	No terminado
-       NA	  Sin garaje
+       NA	Sin garaje
 		
 GarageCars: Tamaño del garaje en capacidad de coches
 
@@ -480,9 +480,9 @@ Fence: Calidad de la valla
 		
        GdPrv	Buena privacidad
        MnPrv	Privacidad mínima
-       GdWo	  Buena madera
-       MnWw	  Mínima madera/alambrada
-       NA	    Sin valla
+       GdWo	Buena madera
+       MnWw	Mínima madera/alambrada
+       NA	Sin valla
 	
 MiscFeature: Otras características
 		
@@ -491,7 +491,7 @@ MiscFeature: Otras características
        Othr	Otro
        Shed	Cobertizo (más de 100 pies cuadrados)
        TenC	Pista de tenis
-       NA	  Nada
+       NA	Nada
 		
 MiscVal: Coste de otras características 
 
@@ -514,41 +514,67 @@ SaleType: Condición de venta
 		
 SaleCondition: Tipo de venta
 
-       Normal	  Normal
+       Normal	Normal
        Abnorml	Anormal - embargo, subasta, etc...
        AdjLand	Compra del solar de la vivienda
-       Alloca	  Asignación: dos propiedades vinculadas con escrituras separadas, por ejemplo condominio con una unidad de garaje	
-       Family	  Venta entre familiares
+       Alloca	Asignación: dos propiedades vinculadas con escrituras separadas, por ejemplo condominio con una unidad de garaje	
+       Family	Venta entre familiares
        Partial	Vivienda no terminada en momento de venta (normalmente para casas nuevas)
 
 
 ### 2. Integración y selección de los datos de interés a analizar.
 
+Los datos proceden de la web de *kaggle*, de donde se descargan en formato CSV. Cada registro tiene un identificador de inmueble, y el resto de los datos de la vivienda.
+
+El objetivo es el poder predecir el precio de una vivienda a partir de esos datos, por ello se comprobarán cuáles de los datos influyen más en el precio de una vivienda, si es la ubicación, el tamaño, el estado de la vivienda, etc...
+
 ### 3. Limpieza de los datos.
 
-#### 2.1. ¿Los datos contienen ceros o elementos vacíos? ¿Cómo gestionarías cada uno de estos casos?
+Los datos provistos parecen bastante completos, si bien en muchos de los datos cuantitativos está el indicador *NA* que indican datos no disponibles, y que habrá que tratar adecuadamente.
 
-####  2.2. Identificación y tratamiento de valores extremos.
+#### 3.1. ¿Los datos contienen ceros o elementos vacíos? ¿Cómo gestionarías cada uno de estos casos?
+
+Varios datos cualitativos y cuantitativos vienen con datos NA, en el caso de que no disponga de ese atributo (garaje, etc..). A tratar con reemplazo por 0, o bien filtrando elementos.
+
+#### 3.2. Identificación y tratamiento de valores extremos.
+
+Comprobar valores extremos, en tamaño de la propiedad, precios, etc.. 
+
+Utilización de boxplots, a partir de distintas agrupaciones, vecindarios etc...
 
 ### 4. Análisis de los datos.
 
-#### 3.1. Selección de los grupos de datos que se quieren analizar/comparar (planificación de los análisis a aplicar).
+#### 4.1. Selección de los grupos de datos que se quieren analizar/comparar (planificación de los análisis a aplicar).
 
-#### 3.2. Comprobación de la normalidad y homogeneidad de la varianza.
+Agrupación por tipos de viviendas, por vecindarios, etc...
 
-#### 3.3. Aplicación de pruebas estadísticas para comparar los grupos de datos.
+
+#### 4.2. Comprobación de la normalidad y homogeneidad de la varianza.
+
+A implementar contraste de hipótesis
+
+#### 4.3. Aplicación de pruebas estadísticas para comparar los grupos de datos.
 
 En función de los datos y el objetivo del estudio, aplicar pruebas de contraste de hipótesis, correlaciones, regresiones, etc.
 
+Se trata de descubrir qué características de la vivienda afectan más al cálculo final del precio de la vivienda.
+
+
 ### 5. Representación de los resultados a partir de tablas y gráficas.
 
+A realizar
+
 ### 6. Resolución del problema. A partir de los resultados obtenidos, ¿cuáles son las conclusiones? ¿Los resultados permiten responder al problema?
+
+Descripción de factores principales del efecto de la vivienda.
+
+Realizar varios contrastes de hipótesis
+
+
 
 ### 7. Código: Hay que adjuntar el código, preferiblemente en R, con el que se ha realizado la limpieza, análisis y representación de los datos. 
 
 La práctica será realizada en código R, empleado la herramienta RStudio, formateando los resultados finales con *rmarkdown*. 
-
-
 
 
 
