@@ -12,6 +12,8 @@ José Pérez Sánchez
 
 ### 1. Descripción del dataset. ¿Por qué es importante y qué pregunta/problema pretende responder?
 
+En este dataset se describen distintas características de casas así como el precio de éstas. Se trataría de crear métodos de regresión que nos permitan predecir el precio de una casa a partir de sus características. Esto es útil tanto para futuros compradores, que pueden estimar así si una vivienda está cara o barata según sus características y zona donde se encuentra y para los vendedores, que pueden estimar los precios adecuados para sus viviendas, al menos según el estado del mercado.
+
 El dataset viene [descrito en inglés](https://storage.googleapis.com/kaggle-competitions-data/kaggle/5407/data_description.txt)  en la propia web de *kaggle*, traducido, los campos son:
 
 MSSubClass: Tipo de vivienda. Valor discreto, factor.
