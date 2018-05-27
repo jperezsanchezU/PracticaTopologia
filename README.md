@@ -139,7 +139,7 @@ BldgType: tipo de vivienda
        TwnhsE	Vivienda adosadada esquina
        TwnhsI	Vivienda adosada ambos lados
 	
-HouseStyle: Style of dwelling
+HouseStyle: Estilo de vivienda
 	
        1Story	Una planta
        1.5Fin	Planta y media: Segundo nivel terminado
@@ -220,22 +220,22 @@ Exterior1st: Material de construcción exterior de la casa
        Wd Sdng	Tablones de madera
        WdShing	Madera con forma
 	
-Exterior2nd: Covertura exterior de la casa (si otro material del anterior)
+Exterior2nd: Cobertura exterior de la casa (si otro material del anterior)
 
        AsbShng	Asbesto
        AsphShn	Asfalto
        BrkComm	Ladrillo normal
        BrkFace	Ladrillo visto
-       CBlock	Bloque de cemento
+       CBlock	  Bloque de cemento
        CemntBd	Cemento
        HdBoard	Hard Board
        ImStucc	Imitación estuco
        MetalSd	Metalico
-       Other	Otro
+       Other	  Otro
        Plywood	Plywood
        PreCast	PreCast	
-       Stone	Piedra
-       Stucco	Estuco
+       Stone	  Piedra
+       Stucco 	Estuco
        VinylSd	Vinilo
        Wd Sdng	Tablones de madera
        WdShing	Madera con forma
@@ -244,9 +244,9 @@ MasVnrType: Tipo de muros interiores
 
        BrkCmn   Ladrillo común
        BrkFace	Ladrillo visto
-       CBlock	Bloque de cemento
-       None	Ninguno
-       Stone	Piedra
+       CBlock	  Bloque de cemento
+       None	    Ninguno
+       Stone	  Piedra
 	
 MasVnrArea: Área de construcción en pies cuadrados
 
@@ -357,7 +357,7 @@ Electrical: Instalación eléctrica
        FuseA	Caja de fusibles de más de 60 amperios (Normal)	
        FuseF	Caja de fusibles de 60 amperios o casi (regular)	
        FuseP	Caja de fusibles de menos de 60, (pobre)
-       Mix	Mixto
+       Mix	  Mixto
 		
 1stFlrSF: Tamaño primera planta
  
@@ -482,9 +482,9 @@ Fence: Calidad de la valla
 		
        GdPrv	Buena privacidad
        MnPrv	Privacidad mínima
-       GdWo	Buena madera
-       MnWw	Mínima madera/alambrada
-       NA	Sin valla
+       GdWo 	Buena madera
+       MnWw 	Mínima madera/alambrada
+       NA	    Sin valla
 	
 MiscFeature: Otras características
 		
@@ -493,7 +493,7 @@ MiscFeature: Otras características
        Othr	Otro
        Shed	Cobertizo (más de 100 pies cuadrados)
        TenC	Pista de tenis
-       NA	Nada
+       NA	  Nada
 		
 MiscVal: Coste de otras características 
 
@@ -503,26 +503,25 @@ YrSold: Año de venta (YYYY)
 
 SaleType: Condición de venta
 		
-       WD 	Escritura convencional
-       CWD	Escritura de garantía, efectivo
-       VWD	Estritura con hipoteca
-       New	Casa recién construida y vendida
-       COD	Court Officer Deed/Estate
-       Con	Contrato con 15% de depósito normal
+       WD 	  Escritura convencional
+       CWD	  Escritura de garantía, efectivo
+       VWD	  Estritura con hipoteca
+       New	  Casa recién construida y vendida
+       COD	  Court Officer Deed/Estate
+       Con	  Contrato con 15% de depósito normal
        ConLw	Contrato con bajo depósito y bajos intereses
        ConLI	Contrato bajo interés
        ConLD	Contrato bajo depósito inicial
-       Oth	Otro
+       Oth	  Otro
 		
 SaleCondition: Tipo de venta
 
-       Normal	Normal
+       Normal	  Normal
        Abnorml	Anormal - embargo, subasta, etc...
        AdjLand	Compra del solar de la vivienda
-       Alloca	Asignación: dos propiedades vinculadas con escrituras separadas, por ejemplo condominio con una unidad de garaje	
-       Family	Venta entre familiares
+       Alloca	  Asignación: dos propiedades vinculadas con escrituras separadas, por ejemplo condominio con una unidad de garaje	
+       Family	  Venta entre familiares
        Partial	Vivienda no terminada en momento de venta (normalmente para casas nuevas)
-
 
 ### 2. Integración y selección de los datos de interés a analizar.
 
