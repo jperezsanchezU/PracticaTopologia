@@ -148,7 +148,7 @@ HouseStyle: Style of dwelling
        2.5Fin	Dos plantas y media: último nivel terminado
        2.5Unf	Dos plantas y media: último nivel no terminado
        SFoyer	Casa con dos plantas y sótano.
-       SLvl	  Vivienda en una planta de una casa.
+       SLvl	Vivienda en una planta de una casa.
 	
 OverallQual: Calidades del material y terminaciones de la casa
 
@@ -387,7 +387,7 @@ KitchenQual: Calidad cocina
        Fa	Regular
        Po	Mala
        	
-TotRmsAbvGrd: Total rooms above grade (does not include bathrooms)
+TotRmsAbvGrd: Número de habitaciones encima del sótano (no incluye baños)
 
 Functional: Funcionalidad
 
@@ -400,7 +400,7 @@ Functional: Funcionalidad
        Sev	Daños severos
        Sal	Sólo reconstrucción
 		
-Fireplaces: Number of fireplaces
+Fireplaces: Número de chimeneas, estufas, hogares, etc...
 
 FireplaceQu: Calidad de la hogar (chimenea)
 
