@@ -1,3 +1,13 @@
+
+## M2.851 - Tipología y ciclo de vida de los datos
+## Práctica 2: Limpieza y validación de datos
+
+Se analizarán los datos de precios de vivienda con el objetivo de poder generar un modelo predictivo del precio de las mismas según distintas características de los inmuebles, ubicación, tamaño, calidades, antigüedad, etc...
+
+Para ello se empleará un dataset de la web kaggle sobre inmuebles, de la competición House Prices: Advanced Regression Techniques.
+
+La descargar, limpieza y análisis de datos se hará en código R, documentándolo con rmarkdown. Se adjuntan en la propia cuenta github los ficheros fuente, Practica1_topología_jperezsanchez.Rmd y el generado pdf.
+
 # House Prices: Advanced Regression Techniques
 
 ## Análisis del precio de venta de inmuebles según distintas características
