@@ -1,0 +1,1286 @@
+---
+output:
+  html_document: default
+  pdf_document: default
+  word_document:
+    fig_caption: yes
+    keep_md: yes
+    toc: yes
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+
+displayCode = TRUE
+
+
+```
+
+
+
+## M2.851 - Tipología y ciclo de vida de los datos
+## Práctica 2: Limpieza y validación de datos
+
+# House Prices: Advanced Regression Techniques
+
+
+
+## Análisis del precio de venta de inmuebles según distintas características
+
+Se basa en la competición *kaggle* sobre técnicas de regresión avanzadas en precios de viviendas.
+
+[House Prices: Advanced Regression Techniques](https://www.kaggle.com/c/house-prices-advanced-regression-techniques)
+
+## Autor
+
+José Pérez Sánchez, jperezsanchez
+
+### 1. Descripción del dataset. ¿Por qué es importante y qué pregunta/problema pretende responder?
+
+En este dataset se describen distintas características de casas así como el precio de éstas. Se trataría de crear métodos de regresión que nos permitan predecir el precio de una casa a partir de sus características. Esto es útil tanto para futuros compradores, que pueden estimar así si una vivienda está cara o barata según sus características y zona donde se encuentra y para los vendedores, que pueden estimar los precios adecuados para sus viviendas, al menos según el estado del mercado.
+
+El dataset viene [descrito en inglés](https://storage.googleapis.com/kaggle-competitions-data/kaggle/5407/data_description.txt)  en la propia web de *kaggle*, traducido, los campos son:
+
+MSSubClass: Tipo de vivienda. Valor discreto, factor.
+
+MSZoning: Calificacion urbanística  del suelo. Valor discreto, factor.
+
+       A	Agrícola
+       C	Comercial
+       FV	Residencial flotante
+       I	Industrial
+       RH	Residencial alta densidad
+       RL	Residencial baja densidad
+       RP	Residencial baja densidad, parques
+       RM	Residencial densidad media
+	
+LotFrontage: Longitud de la parte de la propiedad que limita con la calle, en pies
+
+LotArea: Tamaño de la propiedad en pies cuadrados
+
+Street: Tipo de carretera de acceso a la propiedad
+
+       Grvl	Grava	
+       Pave	Pavimentado
+       	
+Alley: Tipo de acceso final a la propiedad
+
+       Grvl	Grava
+       Pave	Pavimentado
+       NA 	Sin acceso
+		
+LotShape: Forma genérica de la propiedad
+
+       Reg	Regular	
+       IR1	Ligeramente irregular
+       IR2	Moderadamente irregular
+       IR3	Irregular
+       
+LandContour: Nivelación de la propiedad
+
+       Lvl	Casi plano.
+       Bnk	Escalón - Subida rápida y significativa desde la calle al edificio
+       HLS	Colina - Inclinación significativa de lado a lado
+       Low	Depresión
+		
+Utilities: Servicios públicos disponibles
+		
+       AllPub	Todos (electricidad, gas, agua y alcantarillado)	
+       NoSewr	Electricidad, gas y agua (fosa séptica)
+       NoSeWa	Sólo electricidad y gas
+       ELO	Solamente electricidad
+	
+LotConfig: Configuración de la parcela
+
+       Inside	Parcela interior
+       Corner	Esquina
+       CulDSac	Cul-de-sac, calle sin salida
+       FR2	Frontal exterior por dos lados de la propiedad
+       FR3	Frontal exterior por tres lados de la propiedad
+	
+LandSlope: Inclinación de la propiedad
+		
+       Gtl	Ligera
+       Mod	Moderada
+       Sev	Severa
+	
+Neighborhood: Ubicación de la propiedad, entre distintos vecindarios.
+
+       Blmngtn	Bloomington Heights
+       Blueste	Bluestem
+       BrDale	Briardale
+       BrkSide	Brookside
+       ClearCr	Clear Creek
+       CollgCr	College Creek
+       Crawfor	Crawford
+       Edwards	Edwards
+       Gilbert	Gilbert
+       IDOTRR	Iowa DOT and Rail Road
+       MeadowV	Meadow Village
+       Mitchel	Mitchell
+       Names	North Ames
+       NoRidge	Northridge
+       NPkVill	Northpark Villa
+       NridgHt	Northridge Heights
+       NWAmes	Northwest Ames
+       OldTown	Old Town
+       SWISU	South & West of Iowa State University
+       Sawyer	Sawyer
+       SawyerW	Sawyer West
+       Somerst	Somerset
+       StoneBr	Stone Brook
+       Timber	Timberland
+       Veenker	Veenker
+			
+Condition1: Proximidad a comunicaciones e infrastructuras
+	
+       Artery	Adyacente a calle principal
+       Feedr	Adyacente a calle secundaria
+       Norm	Normal	
+       RRNn	A menos de 200 minutos del ferrocarril North-South
+       RRAn	Adyacente al ferrorarril North-South
+       PosN	cerca de parques, cinturón verde, etc.
+       PosA	Adyacente a otras atracciones urbanas (parques, etc..)
+       RRNe	A menos de 200 minutos del ferrocarril East-West
+       RRAe	Adyacente al ferrocarril East-West
+	
+Condition2: Proximidad a comunicaciones e infrastructuras (si se da más de una)
+		
+       Artery	Adyacente a calle principal
+       Feedr	Adyacente a calle secundaria
+       Norm	Normal	
+       RRNn	A menos de 200 minutos del ferrocarril North-South
+       RRAn	Adyacente al ferrorarril North-South
+       PosN	cerca de parques, cinturón verde, etc.
+       PosA	Adyacente a otras atracciones urbanas (parques, etc..)
+       RRNe	A menos de 200 minutos del ferrocarril East-West
+       RRAe	Adyacente al ferrocarril East-West
+	
+BldgType: tipo de vivienda
+		
+       1Fam	Unifamiliar independiente
+       2FmCon	Vivienda convertida en dos viviendas, inicialmente construida como unifamiliar
+       Duplx	Dúplex
+       TwnhsE	Vivienda adosadada esquina
+       TwnhsI	Vivienda adosada ambos lados
+	
+HouseStyle: Estilo de vivienda
+	
+       1Story	Una planta
+       1.5Fin	Planta y media: Segundo nivel terminado
+       1.5Unf	Planta y media: Segundo nivel no terminado
+       2Story	Dos plantas
+       2.5Fin	Dos plantas y media: último nivel terminado
+       2.5Unf	Dos plantas y media: último nivel no terminado
+       SFoyer	Casa con dos plantas y sótano.
+       SLvl	Vivienda en una planta de una casa.
+	
+OverallQual: Calidades del material y terminaciones de la casa
+
+       10	Sobresaliente
+       9	Excelente
+       8	Muy bueno
+       7	Bueno
+       6	Encima de la media
+       5	Medio
+       4	Bajo la media
+       3	Regular
+       2	Malo
+       1	Muy malo
+	
+OverallCond: Calificación del estado de la casa
+
+       10	Sobresaliente
+       9	Excelente
+       8	Muy bueno
+       7	Bueno
+       6	Encima de la media
+       5	Medio
+       4	Bajo la media
+       3	Regular
+       2	Malo
+       1	Muy malo
+		
+YearBuilt: Fecha inicial de construcción
+
+YearRemodAdd: Fecha de renovación (la de construcción si no ha sido renovada)
+
+RoofStyle: Tipo de tejado
+
+       Flat	Plano
+       Gable	Tejado inclinado, 2 lados
+       Gambrel	Granero
+       Hip	Tejado inclinado, 4 lados
+       Mansard	Buhardilla
+       Shed	Cobertizo
+		
+RoofMatl: Material del tejado
+
+       ClyTile	Teja
+       CompShg	Grava
+       Membran	Membrana
+       Metal	Metal
+       Roll	Rollo de alquitrán
+       Tar&Grv	Grava y alquitrán
+       WdShake	Tablones de madera
+       WdShngl  Tejas de madera
+		
+Exterior1st: Material de construcción exterior de la casa
+
+       AsbShng	Asbesto
+       AsphShn	Asfalto
+       BrkComm	Ladrillo normal
+       BrkFace	Ladrillo visto
+       CBlock	Bloque de hormigón
+       CemntBd	Cemento
+       HdBoard	Hard Board
+       ImStucc	Imitación estuco
+       MetalSd	Metalico
+       Other	Otro
+       Plywood	Plywood
+       PreCast	PreCast	
+       Stone	Piedra
+       Stucco	Estuco
+       VinylSd	Vinilo
+       Wd Sdng	Tablones de madera
+       WdShing	Madera con forma
+	
+Exterior2nd: Cobertura exterior de la casa (si otro material del anterior)
+
+       AsbShng	Asbesto
+       AsphShn	Asfalto
+       BrkComm	Ladrillo normal
+       BrkFace	Ladrillo visto
+       CBlock	  Bloque de cemento
+       CemntBd	Cemento
+       HdBoard	Hard Board
+       ImStucc	Imitación estuco
+       MetalSd	Metalico
+       Other	  Otro
+       Plywood	Plywood
+       PreCast	PreCast	
+       Stone	  Piedra
+       Stucco 	Estuco
+       VinylSd	Vinilo
+       Wd Sdng	Tablones de madera
+       WdShing	Madera con forma
+		
+MasVnrType: Tipo de muros interiores
+
+       BrkCmn   Ladrillo común
+       BrkFace	Ladrillo visto
+       CBlock	  Bloque de cemento
+       None	    Ninguno
+       Stone	  Piedra
+	
+MasVnrArea: Área de construcción en pies cuadrados
+
+ExterQual: Calidad del material exterior
+		
+       Ex	Excelente
+       Gd	Bueno
+       TA	Normal
+       Fa	Regular
+       Po	Malo
+		
+ExterCond: Estado actual del material del exterior
+		
+       Ex	Excelente
+       Gd	Bueno
+       TA	Normal
+       Fa	Regular
+       Po	Malo
+		
+Foundation: Tipo de cimientos
+		
+       BrkTil	Ladrillo y azulejo
+       CBlock	Piedras, ladrillos, etc..
+       PConc	Hormigón
+       Slab	Losas
+       Stone	Piedra
+       Wood	Madera
+		
+BsmtQual: Altura de los cimientos
+
+       Ex	Excelente (Más de 100 pulgadas)	
+       Gd	Bueno (Entre 90-99 pulgadas)
+       TA	Normal (80-89 pulgadas)
+       Fa	Regular (70-79 pulgadas)
+       Po	Pobre (menos de 70 pulgadas)
+       NA 	Sin cimientos
+		
+BsmtCond: Estado general de los cimientos
+
+       Ex	Excelente
+       Gd	Bueno
+       TA	Normal - Ligeras humedades permitidas
+       Fa	Regular - Humedades, pequeñas roturas o asentamientos
+       Po	Malo - Asentamientos, roturas o humedades graves
+       NA	Sin cimientos
+	
+BsmtExposure: Estado de la salida o límites del jardin
+
+       Gd	Buena
+       Av	Media
+       Mn	Mínimo
+       No	Sin señalización del límite en la propiedad 
+       NA	Sin especificar
+	
+BsmtFinType1: Clasificación de habitabilidad del sótano
+
+       GLQ	Buenas habitaciones de vivienda
+       ALQ	Habitaciones normales
+       BLQ	Habitabilidad inferior al resto de la vivienda
+       Rec	Habitabilidad media como trastero
+       LwQ	Baja calidad
+       Unf	No terminado
+       NA	Sin sótano
+		
+BsmtFinSF1: Tamaño del área sótano en pies cuadrados terminados
+
+BsmtFinType2: Clasificación de habitabilidad del sótano (si varios tipos)
+
+       GLQ	Buenas habitaciones de vivienda
+       ALQ	Habitaciones normales
+       BLQ	Habitabilidad inferior al resto de la vivienda
+       Rec	Habitabilidad media como trastero
+       LwQ	Baja calidad
+       Unf	No terminado
+       NA	Sin sótano
+
+BsmtFinSF2: Tamaño de la segundo área sótano en pies cuadrados terminados
+
+BsmtUnfSF: Tamaño del área del sótano no terminada
+
+TotalBsmtSF: Tamaño total del sótano
+
+Heating: Tipo de calefacción
+		
+       Floor	Suelo radiante
+       GasA	Calefacción por aire, usando gas
+       GasW	Calefacción y agua caliente con gas
+       Grav	Horno de gravedad (caldera de aire)
+       OthW	Agua caliente o vapor no usando gas
+       Wall	Muro calefactor
+		
+HeatingQC: Calidad y estado de la calefacción
+
+       Ex	Excelente
+       Gd	Bueno
+       TA	Normal
+       Fa	Regular
+       Po	Malo
+		
+CentralAir: Aire acondicionado
+
+       N	No
+       Y	Sí
+		
+Electrical: Instalación eléctrica
+
+       SBrkr	Circuito estándar
+       FuseA	Caja de fusibles de más de 60 amperios (Normal)	
+       FuseF	Caja de fusibles de 60 amperios o casi (regular)	
+       FuseP	Caja de fusibles de menos de 60, (pobre)
+       Mix	  Mixto
+		
+1stFlrSF: Tamaño primera planta
+ 
+2ndFlrSF: Tamaño segunda planta
+
+LowQualFinSF: Área de baja calidad, en todas las plantas
+
+GrLivArea: Área habitable, pies cuadrados últiles.
+
+BsmtFullBath: Baños en el sótano
+
+BsmtHalfBath: Aseos en el sótano
+
+FullBath: Baños sobre planta baja
+
+HalfBath: Aseos encima de planta baja
+
+Bedroom: Dormitorios encima de planta baja o sótano
+
+Kitchen: Cocinas sobre planta baja
+
+KitchenQual: Calidad cocina
+
+       Ex	Excelente
+       Gd	Buena
+       TA	Normal
+       Fa	Regular
+       Po	Mala
+       	
+TotRmsAbvGrd: Número de habitaciones encima del sótano (no incluye baños)
+
+Functional: Funcionalidad
+
+       Typ	Normal
+       Min1	Deducciones mínimas 1
+       Min2	Deducciones mínimas 2
+       Mod	Deducciones moderadas
+       Maj1	Deducciones mayores 1
+       Maj2	Deducciones mayores 2
+       Sev	Daños severos
+       Sal	Sólo reconstrucción
+		
+Fireplaces: Número de chimeneas, estufas, hogares, etc...
+
+FireplaceQu: Calidad de la hogar (chimenea)
+
+       Ex	Excelente - Excepcional, en ladrillo.
+       Gd	Bueno - En ladrillo, en la planta principal
+       TA	Medio - Prefabricado o de ladrillo en el sótano
+       Fa	Regular - Prefabricado en el sótano
+       Po	Malo - Horno Ben Franklin (metálico)
+       NA	Sin hogar para fuego.
+		
+GarageType: Ubicación del garaje
+		
+       2Types	Más de un tipo de garaje
+       Attchd	Adosado a la casa
+       Basment	Garaje de sótano
+       BuiltIn	Empotrado (garaje parte de la casa, normalmente con una habitación arriba)
+       CarPort	Tejadillo para coche
+       Detchd	Separado de la casa
+       NA	Sin garaje
+		
+GarageYrBlt: Año de construcción del garaje
+		
+GarageFinish: Terminación interior del garaje
+
+       Fin	Terminado
+       RFn	Casi terminado
+       Unf	No terminado
+       NA	Sin garaje
+		
+GarageCars: Tamaño del garaje en capacidad de coches
+
+GarageArea: Tamaño del garaje en pies cuadrados
+
+GarageQual: Calidad del garaje
+
+       Ex	Excelente
+       Gd	Bueno
+       TA	Normal
+       Fa	Regular
+       Po	Malo
+       NA	Sin garaje
+		
+GarageCond: Estado del garaje
+
+       Ex	Excelente
+       Gd	Bueno
+       TA	Normal
+       Fa	Regular
+       Po	Malo
+       NA	Sin garaje
+		
+PavedDrive: Entrada de vehículos pavimentada
+
+       Y	Pavimentada
+       P	Parcialmente pavimentada
+       N	Nada, gravilla
+		
+WoodDeckSF: Área de terraza de madera en pies cuadrados
+
+OpenPorchSF: Área del porche descubierto en pies cuadrados
+
+EnclosedPorch: Área del porche cubierto en pies cuadrados
+
+3SsnPorch: Tamaño de la veranda de obra en pies cuadrado
+
+ScreenPorch: Área de veranda ligera en pies cuadrados
+
+PoolArea: Tamaño de la piscina, pies cuadrados
+
+PoolQC: Calidad de la piscina
+		
+       Ex	Excelente
+       Gd	Buena
+       TA	Normal
+       Fa	Regular
+       NA	Sin piscina
+		
+Fence: Calidad de la valla
+		
+       GdPrv	Buena privacidad
+       MnPrv	Privacidad mínima
+       GdWo 	Buena madera
+       MnWw 	Mínima madera/alambrada
+       NA	    Sin valla
+	
+MiscFeature: Otras características
+		
+       Elev	Ascensor
+       Gar2	Segundo garaje (si no incluido en la sección garaje)
+       Othr	Otro
+       Shed	Cobertizo (más de 100 pies cuadrados)
+       TenC	Pista de tenis
+       NA	  Nada
+		
+MiscVal: Coste de otras características 
+
+MoSold: Mes de venta (MM)
+
+YrSold: Año de venta (YYYY)
+
+SaleType: Condición de venta
+		
+       WD 	  Escritura convencional
+       CWD	  Escritura de garantía, efectivo
+       VWD	  Estritura con hipoteca
+       New	  Casa recién construida y vendida
+       COD	  Court Officer Deed/Estate
+       Con	  Contrato con 15% de depósito normal
+       ConLw	Contrato con bajo depósito y bajos intereses
+       ConLI	Contrato bajo interés
+       ConLD	Contrato bajo depósito inicial
+       Oth	  Otro
+		
+SaleCondition: Tipo de venta
+
+       Normal	  Normal
+       Abnorml	Anormal - embargo, subasta, etc...
+       AdjLand	Compra del solar de la vivienda
+       Alloca	  Asignación: dos propiedades vinculadas con escrituras separadas	
+       Family	  Venta entre familiares
+       Partial	Vivienda no terminada en momento de venta (normalmente para casas nuevas)
+
+
+### 2. Integración y selección de los datos de interés a analizar.
+
+Los datos proceden de la web de *kaggle*, de donde se descargan en formato CSV. Cada registro tiene un identificador de inmueble, y el resto de los datos de la vivienda.
+
+El objetivo es el poder predecir el precio de una vivienda a partir de esos datos, por ello se comprobarán cuáles de los datos influyen más en el precio de una vivienda, si es la ubicación, el tamaño, el estado de la vivienda, etc...
+
+La carga de datos se realizará descargando el fichero CSV de la url indicada, (en este caso desde la cuenta github) y ejecutando el siguiente código R:
+
+
+```{r integracion_seleccion, echo=TRUE}
+# Lectura de datos
+
+#inmuebles <- read.csv("Datos-Inmuebles.csv")
+
+suppressWarnings(suppressMessages(library(RCurl)))
+downF <- getURL("https://raw.githubusercontent.com/jperezsanchezU/house-prices-advanced-regression-techniques/master/csv/Datos-Inmuebles.csv")
+inmuebles <- read.csv(text = downF)
+
+# Comprobación de datos cargados
+head(inmuebles[,1:5])
+
+```
+
+En los datos de inmuebles se prestará atención sobre todo a los datos relativos al tamaño de la vivienda y de la parcela, asi como la ubicacion, (vecindario, proximidad a medios de transporte, etc..) y secundariamente a otras caracteristicas, garaje, piscina, estado, etc...
+
+Se analizarán valores extremos de los datos cuantitativos y se trataran si no fuese coherentes con los datos habituales en compra/venta de inmuebles.
+
+Tras la limpieza de datos, se reducirá el conjunto de datos a analizar, en el punto 4, agrupando datos y eliminando aquellos más incompletos o con menor peso en el cálculo del precio de la vivienda, como es la calidad del porche, o el número de chimeneas.
+
+
+### 3. Limpieza de los datos.
+
+Los tipos de los datos inferidos en su carga son correctos y coherentes conforme a la descripción del conjunto de datos. 
+
+```{r}
+# Tipo de dato asignado a cada campo
+
+sapply(inmuebles, function(x) class(x))
+```
+
+Sólo se detecta un error, en el campo MSSubClass, que determina el tipo del inmueble, pero se detecta como valor cuantitativo. Se convertirá en factor.
+
+```{r}
+# Conversión de MSSubClass a factor
+
+inmuebles$MSSubClass <- as.factor(inmuebles$MSSubClass)
+
+class(inmuebles$MSSubClass)
+
+```
+
+
+
+
+#### 3.1. ¿Los datos contienen ceros o elementos vacíos? ¿Cómo gestionarías cada uno de estos casos?
+
+Varios datos cualitativos y cuantitativos vienen con datos NA, en el caso de que no disponga de ese atributo (garaje, etc..). A tratar con reemplazo por 0, o bien filtrando elementos.
+
+Los datos provistos parecen bastante completos, aún asi hay varios casos donde alguno de los datos no esta disponible, *NA*.
+
+En el caso de los datos cualitativos, tipo factor, el significado del indicador *NA* está explicado en la descripción del dataset y no precisa tratamiento. Suele corresponder con la ausencia del dato, por ejemplo, la ausencia de garaje. 
+
+Respecto a los datos cuantitativos está el indicador *NA* que indican datos no disponibles, y que habrá que tratar adecuadamente.
+
+Se verifican en qué valores cuantitativos hay indicadores *NA*
+
+
+
+
+```{r}
+# Tipo de dato asignado a cada campo
+
+fun<-function(x){
+ifelse(is.factor(x),0,{sum(is.na(x))})
+}
+
+sapply(inmuebles, function(x) fun(x))
+
+```
+
+Los datos que interesarian tratar son los cuantitativos que valores *NA*:
+
+LotFrontage: 259 elementos.
+MasVnrArea:  8 elementos.
+GarageYrBlt: 81 elementos
+
+El tratamiento será el reemplazo de los valores *NA* por el valor calculado a partir de los *k vecinos más próximos*, imputación kNN, empleado la libreria VIM.
+
+```{r}
+# Tipo de dato asignado a cada campo
+
+suppressWarnings(suppressMessages(library(VIM)))
+
+inmuebles$LotFrontage <- kNN(inmuebles)$LotFrontage
+
+inmuebles$MasVnrArea <- kNN(inmuebles)$MasVnrArea
+
+inmuebles$GarageYrBlt <- kNN(inmuebles)$GarageYrBlt
+
+sapply(inmuebles, function(x) fun(x))
+
+
+```
+
+
+
+#### 3.2. Identificación y tratamiento de valores extremos.
+
+Para identificar los valores extremos se emplearán boxplots, con esa función se podrán representar graficamente estos valores y mostrarlos, aplicándolo a los datos cuantitaivos:
+
+
+```{r}
+# Ejecución de boxplot
+
+boxplot(inmuebles$LotFrontage)
+
+boxplot.stats(inmuebles$LotFrontage)$out
+
+boxplot(inmuebles$LotArea)
+
+boxplot.stats(inmuebles$LotArea)$out
+
+boxplot.stats(inmuebles$LandContour)$out
+
+boxplot(inmuebles$YearBuilt)
+
+boxplot.stats(inmuebles$YearBuilt)$out
+
+boxplot(inmuebles$GarageArea)
+
+boxplot.stats(inmuebles$GarageArea)$out
+
+boxplot(inmuebles$PoolArea)
+
+boxplot.stats(inmuebles$PoolArea)$out
+
+boxplot(inmuebles$SalePrice)
+
+boxplot.stats(inmuebles$SalePrice)$out
+
+boxplot(inmuebles$BsmtFullBath)
+
+boxplot.stats(inmuebles$BsmtFullBath)$out
+
+boxplot(inmuebles$BsmtFinSF2)
+
+boxplot.stats(inmuebles$BsmtFinSF2)$out
+
+
+```
+
+
+Se han encontrado pocos valores *outliers* dentro de los datos, los mas relativos al area del garage o a la piscina, pues no muchas propiedades la tenían. Sin embargo estos datos no serán demasiado importante en el análisis de regresión sobre el precio, pues se centrara en el tamaño de la propiedad, vivienda y en la ubicacion. El año de construcción tampoco sera determinante. Hay que tener en cuenta que hay datos extremos en variables como la superficie de una tercera planta, o un segundo sótano, ya que la mayoría de las viviendas no tienen esos datos, o no tienen aseos en el sótano, etc.., con lo que una mayoría está a 0, mientras los valores extremos son las viviendas que sí tienen.
+
+Para evitar este problema, algunos de esos campos, como el númeor de chimeneas, no entrará en el análisis, mientras que en el caso de las superficies, o número total de aseos o baños, se sumarán todos los de la vivienda, independientemente de dónde se encuentre.
+
+Sin embargo, en general, no parecen datos erróneos, como podria ser valores multiplicados por 1000, etc.., por lo que no habra acción más acciones correctivas que una agrupación de datos para algunas variables.
+
+
+### 4. Análisis de los datos.
+
+#### 4.1. Selección de los grupos de datos que se quieren analizar/comparar (planificación de los análisis a aplicar).
+
+Como, en principio, las casas o parcelas mayores serán más caras, se incluyen los datos de precio por pie cuadrado, para estandarizar mejor los precios. Se comprobara también si el tamaño total influye en el precio por pie cuadrado.
+
+Según los principales fondos inmobiliarios, la característica clave que determina el valor de de una propiedad, además de su tamaño, es la ubicación, además, de todos los datos disponibles, lo que se tendrá en cuenta serán los distintos tamaños: parcela, tamaño útil de la vivienda,  el tipo de la misma, garajes, materiales de construccion y calidades o estado, sobre todo de cimientos.
+
+Para los restantes análisis emplearemos este subconjunto de los datos de inmuebles:
+
+MSSubClass: Tipo de vivienda
+
+MSZoning: Calificacion urbanística del suelo.
+
+Neighborhood: Ubicación de la propiedad, entre distintos vecindarios.
+
+Condition1: Proximidad a comunicaciones e infrastructuras.
+
+OverallQual: Calidades del material y terminaciones de la casa.
+
+OverallCond: Calificación del estado de la casa.
+
+BsmtCond: Estado general de los cimientos.
+
+YearBuilt: Año de construcción.
+
+LotArea: Tamaño de la parcela.
+
+GarageCars: Tamaño del garaje en coches
+
+GarageArea: Área del garaje.
+
+Bedroom: número de dormitorios
+
+AllHalfBath: suma del total de aseos, BsmtHalfBath + HalfBath
+
+AllBath: suma total de baños completos, BsmtFullBath + FullBath
+
+GrLivArea: Tamaño del área habitable.
+
+```{r}
+# Selección de variables para el análisis y modelo
+
+inmuebles["AllHalfBath"] <- NA 
+
+inmuebles$AllHalfBath <- inmuebles$BsmtHalfBath + inmuebles$HalfBath
+
+inmuebles["AllBath"] <- NA 
+
+inmuebles["AllBath"] <- inmuebles$BsmtFullBath + inmuebles$FullBath
+
+
+```
+
+
+Se analizará la normalidad y la homogeneidad de los datos cuantitativos seleccionados.
+
+Se añade el valor del pie cuadrado en base al tamaño de la parcela, *PriceLotSquareFoot* y se calcula sus valores *outliers*. Se utilizará tambien el precio del pie cuadrado del area construida, *GrLivArea*, dólares por pie cuadrado habitable, *PriceLotGrLivArea*.
+
+
+```{r}
+# Ejecución de boxplot
+
+
+inmuebles["PriceLotSquareFoot"] <- NA 
+inmuebles$PriceLotSquareFoot <- (inmuebles$SalePrice / inmuebles$LotArea)
+
+boxplot(inmuebles$PriceLotSquareFoot)
+
+boxplot.stats(inmuebles$PriceLotSquareFoot)$out
+
+
+inmuebles["PriceLotGrLivArea"] <- NA 
+inmuebles$PriceLotGrLivArea <- (inmuebles$SalePrice / inmuebles$GrLivArea)
+
+boxplot(inmuebles$PriceLotGrLivArea)
+
+boxplot.stats(inmuebles$PriceLotGrLivArea)$out
+
+
+```
+
+Se comprueba que el valor mas comun del pie cuadrado ronda los 20 dólares, mientras que el pie cuadrado construido/habitable, está entre los 100 y 140 dólares. Pero se verá que hay bastantes diferencias entre los distintos vecindarios. Curiosamente hay muchos menos valores *outliers* en el precio por superficie habitable/construida que por superficie total.
+
+
+#### 4.2. Comprobación de la normalidad y homogeneidad de la varianza.
+
+Comprobación de normalidad de las variables cuantitativas:
+
+
+```{r}
+
+suppressWarnings(suppressMessages(library(nortest)))
+
+alpha = 0.05
+col.names = colnames(inmuebles)
+
+for (i in 1:ncol(inmuebles)) {
+  if (i == 1) cat("Variables que no siguen distribución normal:\n")
+  if (is.integer(inmuebles[,i]) | is.numeric(inmuebles[,i])) { 
+    p_val = ad.test(inmuebles[,i])$p.value
+  
+    if (p_val < alpha) {
+      cat(col.names[i])
+      # Format output
+      if (i < ncol(inmuebles)-1) cat(", ")
+      if (i %% 3 == 0) cat("\n")
+    }
+  }
+}
+
+```
+
+
+Análisis de la varianza. 
+
+
+Analizamos los precios por pie cuadrado respecto al vecindario, tipo de vivienda y cercanía a infraestructuras
+
+
+
+```{r flignerNeighborhood, echo=TRUE}
+
+fligner.test(inmuebles$PriceLotSquareFoot  ~ inmuebles$Neighborhood)
+
+
+fligner.test(inmuebles$PriceLotGrLivArea  ~ inmuebles$Neighborhood)
+
+
+```     
+     
+
+```{r flignerMSSubClass, echo=TRUE}
+
+fligner.test(inmuebles$PriceLotSquareFoot  ~ inmuebles$MSSubClass)
+
+
+fligner.test(inmuebles$PriceLotGrLivArea  ~ inmuebles$MSSubClass)
+
+
+```     
+     
+Desafortunadamente los p-valor que obtenemos son muy pequeños, cercanos a 0, lo que nos indica que las varianzas son poco homogéneas. Es razonable ya que cada vivienda es, en cierto modo, muy distinta de la otra, en calidades, años de construcción, distribución, garajes, piscinas, y es más complicado en este caso la homogeneidad que en otros casos.
+
+También hay que tener en cuenta que los precios de venta corresponden al año de la misma, con lo que actualizarlos a dólares constantes requeriría combinar los datos con la inflación, o incluso con la inflación en inmobiliario.
+
+
+
+
+#### 4.3. Aplicación de pruebas estadísticas para comparar los grupos de datos.
+
+En función de los datos y el objetivo del estudio, aplicar pruebas de contraste de hipótesis, correlaciones, regresiones, etc.
+
+Se trata de descubrir qué características de la vivienda afectan más al cálculo final del precio de la vivienda.
+
+Se aplicará un modelo de regresion lineal múltiple tomando la variable dependiente precio, salePrice, y como variables explicativas la ubicacion, Neighborhood, tamaño de la parcela, el tipo de la misma y la cercanía a infrastructuras.
+
+Aquí se puede ver la media de precios por pie cuadrado por cada vecindario, y cómo la ubicación sería la variable determinante.
+
+
+```{r pruebas_estadísticas1, echo=FALSE}
+
+# Ref: http://stat545.com/block023_dplyr-do.html#review-grouping-and-summarizing
+
+suppressWarnings(suppressMessages(library(magrittr)))
+suppressWarnings(suppressMessages(library(dplyr)))
+
+# Media de Precios de venta
+
+inmuebles %>%
+    group_by(Neighborhood) %>%
+    do(mean = mean(.$SalePrice))  %T>% str
+
+
+# Media de Precios por pie cuadrado total
+
+inmuebles %>%
+    group_by(Neighborhood) %>%
+    do(mean = mean(.$PriceLotSquareFoot))  %T>% str
+
+# Media de Precios por pie cuadrado construido
+
+inmuebles %>%
+    group_by(Neighborhood) %>%
+    do(mean = mean(.$PriceLotGrLivArea))  %T>% str
+
+```
+
+
+Se va a comprobar como afectan las Variables cuantitativas al precio por pie cuadrado. Dado que las variables no corresponden a una distribucion normal, se empleara el test de Spearman.
+
+Influencia en el precio por pie cuadrado:
+
+
+```{r pruebas_estadísticas21, echo=FALSE}
+
+# ref: https://rpro.wikispaces.com/Correlaci%C3%B3n+de+Spearman
+
+corr_mat <- matrix(nc = 3, nr = 0)
+colnames(corr_mat) <- c("variable", "estimate", "p-value")
+
+    spearman_test = cor.test(inmuebles$PriceLotSquareFoot, inmuebles$GarageCars,
+                             method = "spearman", exact = FALSE)
+    corr_coef = spearman_test$estimate
+    p_val = spearman_test$p.value
+    
+        
+    fila = matrix(ncol = 3, nrow = 1)
+    fila[1][1] = "GarageCars"
+    fila[2][1] = corr_coef
+    fila[3][1] = p_val
+    corr_mat <- rbind(corr_mat, fila)
+    
+    
+    spearman_test = cor.test(inmuebles$PriceLotSquareFoot, inmuebles$GarageArea,
+                             method = "spearman", exact = FALSE)
+    corr_coef = spearman_test$estimate
+    p_val = spearman_test$p.value
+
+    
+    fila = matrix(ncol = 3, nrow = 1)
+    fila[1][1] = "GarageArea"
+    fila[2][1] = corr_coef
+    fila[3][1] = p_val
+    corr_mat <- rbind(corr_mat, fila)
+    
+    
+    spearman_test = cor.test(inmuebles$PriceLotSquareFoot, inmuebles$Bedroom,
+                             method = "spearman", exact = FALSE)
+    corr_coef = spearman_test$estimate
+    p_val = spearman_test$p.value
+
+    fila = matrix(ncol = 3, nrow = 1)
+    fila[1][1] = "Bedroom"
+    fila[2][1] = corr_coef
+    fila[3][1] = p_val
+    corr_mat <- rbind(corr_mat, fila)
+      
+    
+    spearman_test = cor.test(inmuebles$PriceLotSquareFoot, inmuebles$AllHalfBath,
+                             method = "spearman", exact = FALSE)
+    corr_coef = spearman_test$estimate
+    p_val = spearman_test$p.value
+
+    fila = matrix(ncol = 3, nrow = 1)
+    fila[1][1] = "AllHalfBath"
+    fila[2][1] = corr_coef
+    fila[3][1] = p_val
+    corr_mat <- rbind(corr_mat, fila)
+          
+    
+    spearman_test = cor.test(inmuebles$PriceLotSquareFoot, inmuebles$AllBath,
+                             method = "spearman", exact = FALSE)
+    corr_coef = spearman_test$estimate
+    p_val = spearman_test$p.value
+
+    fila = matrix(ncol = 3, nrow = 1)
+    fila[1][1] = "AllBath"
+    fila[2][1] = corr_coef
+    fila[3][1] = p_val
+    corr_mat <- rbind(corr_mat, fila)
+       
+    
+    spearman_test = cor.test(inmuebles$PriceLotSquareFoot, inmuebles$GrLivArea,
+                             method = "spearman", exact = FALSE)
+    corr_coef = spearman_test$estimate
+    p_val = spearman_test$p.value
+
+    fila = matrix(ncol = 3, nrow = 1)
+    fila[1][1] = "GrLivArea"
+    fila[2][1] = corr_coef
+    fila[3][1] = p_val
+    corr_mat <- rbind(corr_mat, fila)
+               
+
+print (corr_mat)
+    
+
+```    
+
+
+En este caso el número de plazas de garaje influye má que el número de dormitorios o aseos, curiosamente a nivel parecido al de los baños.
+
+
+Influencia en el precio por pie cuadrado construido:
+
+
+```{r pruebas_estadísticas22, echo=FALSE}
+
+# ref: https://rpro.wikispaces.com/Correlaci%C3%B3n+de+Spearman
+
+corr_mat <- matrix(nc = 3, nr = 0)
+colnames(corr_mat) <- c("variable", "estimate", "p-value")
+
+
+    spearman_test = cor.test(inmuebles$PriceLotGrLivArea, inmuebles$LotArea,
+                             method = "spearman", exact = FALSE)
+    corr_coef = spearman_test$estimate
+    p_val = spearman_test$p.value
+
+    
+    fila = matrix(ncol = 3, nrow = 1)
+    fila[1][1] = "LotArea"
+    fila[2][1] = corr_coef
+    fila[3][1] = p_val
+    corr_mat <- rbind(corr_mat, fila)
+    
+        
+    spearman_test = cor.test(inmuebles$PriceLotGrLivArea, inmuebles$GarageCars,
+                             method = "spearman", exact = FALSE)
+    corr_coef = spearman_test$estimate
+    p_val = spearman_test$p.value
+    
+        
+    fila = matrix(ncol = 3, nrow = 1)
+    fila[1][1] = "GarageCars"
+    fila[2][1] = corr_coef
+    fila[3][1] = p_val
+    corr_mat <- rbind(corr_mat, fila)
+    
+    
+    spearman_test = cor.test(inmuebles$PriceLotGrLivArea, inmuebles$GarageArea,
+                             method = "spearman", exact = FALSE)
+    corr_coef = spearman_test$estimate
+    p_val = spearman_test$p.value
+
+    
+    fila = matrix(ncol = 3, nrow = 1)
+    fila[1][1] = "GarageArea"
+    fila[2][1] = corr_coef
+    fila[3][1] = p_val
+    corr_mat <- rbind(corr_mat, fila)
+    
+    spearman_test = cor.test(inmuebles$PriceLotGrLivArea, inmuebles$Bedroom,
+                             method = "spearman", exact = FALSE)
+    corr_coef = spearman_test$estimate
+    p_val = spearman_test$p.value
+
+    fila = matrix(ncol = 3, nrow = 1)
+    fila[1][1] = "Bedroom"
+    fila[2][1] = corr_coef
+    fila[3][1] = p_val
+    corr_mat <- rbind(corr_mat, fila)
+    
+    spearman_test = cor.test(inmuebles$PriceLotGrLivArea, inmuebles$AllHalfBath,
+                             method = "spearman", exact = FALSE)
+    corr_coef = spearman_test$estimate
+    p_val = spearman_test$p.value
+
+    fila = matrix(ncol = 3, nrow = 1)
+    fila[1][1] = "AllHalfBath"
+    fila[2][1] = corr_coef
+    fila[3][1] = p_val
+    corr_mat <- rbind(corr_mat, fila)
+          
+    
+    spearman_test = cor.test(inmuebles$PriceLotGrLivArea, inmuebles$AllBath,
+                             method = "spearman", exact = FALSE)
+    corr_coef = spearman_test$estimate
+    p_val = spearman_test$p.value
+
+    fila = matrix(ncol = 3, nrow = 1)
+    fila[1][1] = "AllBath"
+    fila[2][1] = corr_coef
+    fila[3][1] = p_val
+    corr_mat <- rbind(corr_mat, fila)
+
+print (corr_mat)
+
+```
+
+Por pie cuadrado construido, la influencia de las variables es parecida, de nuevo los garajes incluyen, así como los dormitorios y baños, y a más distancia los aseos.
+
+Esto nos indica que un baño completo será más influyente en el precio que varios aseos (WCs), y que la distribución del garaje, cuántas plazas efectivas para vehículos, importa más que su tamaño total (que puede desperdiciarse por mala distribución, columnas, etc...)
+
+
+#### Modelado
+
+A partir de los datos comprobados, se va a intentar crear un modelo de regresión donde la variable dependiente será el precio de venta, "SalesPrice" y las explicativas son el tamaño total de la parcela, LotArea, el tamaño construido/habitable, "GrLivArea", número de dormitorios, "Bedroom" y el número de garajes "GarageCars" y baños, "AllBath" y proximidad a infraestructuras "Condition1".
+
+Se comprobará si hay alguno de los regresores que tiene influencia significativa (pvalor del contraste individual inferior al 5%). 
+
+
+```{r modelado1}
+#Regresion lineal
+
+modeloRegLineal  <-  lm (formula = PriceLotSquareFoot ~ LotArea + GrLivArea + Neighborhood +  GarageCars + AllBath + Condition1, family = binomial, data=inmuebles)
+
+summary(modeloRegLineal)
+
+(summary(modeloRegLineal)$r.squared)
+
+```
+
+
+De nuevo se comprueba que la ubicación, por vecindario o por cercanía a infraestructuras tiene un peso mayor en el precio por pie cuadrado que el número de garajes o baños. El tamaño total de la parcela tampoco influye casi nada en el precio por pie cuadrado (aunque, obviamente, sí en el precio total de venta.) Aún así,  el coeficiente r cuadrado no es muy alto, y cabría buscar cierta mejora en el modelo:
+
+```{r modelado2, echo=FALSE}
+#Regresion lineal
+
+modelo2  <-  lm (formula = PriceLotSquareFoot ~ Neighborhood +  GarageCars + AllBath + Condition1 + AllHalfBath, family = binomial, data=inmuebles)
+
+modelo3  <-  lm (formula = PriceLotSquareFoot ~ Neighborhood +  GarageCars + GarageArea + AllBath + Condition1 + AllHalfBath, family = binomial, data=inmuebles)
+
+modelo4  <-  lm (formula = PriceLotSquareFoot ~ Neighborhood +  GarageCars + YearBuilt + AllBath + Condition1 + AllHalfBath, family = binomial, data=inmuebles)
+
+modelo5  <-  lm (formula = PriceLotSquareFoot ~ Neighborhood +  OverallQual + OverallCond + Condition1 + AllHalfBath, family = binomial, data=inmuebles)
+
+modelo6  <-  lm (formula = PriceLotSquareFoot ~ GarageArea +  OverallQual + OverallCond + Condition1 + AllHalfBath, family = binomial, data=inmuebles)
+
+
+(summary(modeloRegLineal)$r.squared)
+(summary(modelo2)$r.squared)
+(summary(modelo3)$r.squared)
+(summary(modelo4)$r.squared)
+(summary(modelo5)$r.squared)
+(summary(modelo6)$r.squared)
+
+
+```
+
+
+Comprobando otras combinaciones de modelo, aún la primera, basada en los cálculos anteriores, seguiría siendo la más fiable. Se comprueba cómo datos como el año de construcción tendría menos influencia que, por ejemplo, el estado de la vivienda, pero, en el último modelo se verifica cómo la ubicación, vecindario, es lo que determina el precio por pie cuadrado. El precio total vendría dado por éste y el tamaño de la propiedad.
+
+Ejemplo de predicciones con su valor real:
+
+
+```{r modeladoPrueba, echo=FALSE}
+
+matriz = matrix(ncol = 2, nrow = 0)
+colnames(matriz) <- c("Real", "estimado")
+
+fila = matrix(ncol = 2, nrow = 1)
+fila[1][1] = (inmuebles[1,]$PriceLotSquareFoot)
+fila[2][1] = predict(modeloRegLineal, inmuebles[1,])
+
+matriz <- rbind(matriz, fila)
+
+fila = matrix(ncol = 2, nrow = 1)
+fila[1][1] = (inmuebles[100,]$PriceLotSquareFoot)
+fila[2][1] = predict(modeloRegLineal, inmuebles[100,])
+
+matriz <- rbind(matriz, fila)
+
+fila = matrix(ncol = 2, nrow = 1)
+fila[1][1] = (inmuebles[200,]$PriceLotSquareFoot)
+fila[2][1] = predict(modeloRegLineal, inmuebles[200,])
+
+matriz <- rbind(matriz, fila)
+
+fila = matrix(ncol = 2, nrow = 1)
+fila[1][1] = (inmuebles[300,]$PriceLotSquareFoot)
+fila[2][1] = predict(modeloRegLineal, inmuebles[300,])
+
+matriz <- rbind(matriz, fila)
+
+fila = matrix(ncol = 2, nrow = 1)
+fila[1][1] = (inmuebles[400,]$PriceLotSquareFoot)
+fila[2][1] = predict(modeloRegLineal, inmuebles[400,])
+
+matriz <- rbind(matriz, fila)
+
+print (matriz)
+
+
+```
+
+
+### 5. Representación de los resultados a partir de tablas y gráficas.
+
+
+Las librerías gráficas de R nos permiten una gran variedad de gráficas, se mostrarán algunas relacionadas con el análisis de precio realizado.
+
+
+Dado que el vecindario es de los factores clave, es interesante ver la dispersión de precios por vecindario y entre ellos, se aprecia claramente con estos boxplot:
+
+
+```{r graficos1}
+boxplot(inmuebles$PriceLotSquareFoot~inmuebles$Neighborhood,col="gold",
+        xlab="Neighborhood",ylab="Price per square foot", main="Average Prices per Neoghborhood")
+
+
+```
+
+
+Si observamos los mismo datos por precios de venta se visualiza la diferencia, dada por el menor tamaño de las propiedades en vecindarios más caros. Cercanos a centros urbanos.
+
+
+```{r graficos2}
+boxplot(inmuebles$SalePrice~inmuebles$Neighborhood,col="blue",
+        xlab="Neighborhood",ylab="Sale Prices", main="Sale Prices per Neighborhood")
+
+
+```
+
+
+Comprobando también los precios por pie cuadrado respecto al año de construcción:
+
+
+```{r graficos3}
+plot(inmuebles$YearBuilt, inmuebles$PriceLotSquareFoot,pch=19,col="red", xlab = "Año de Construcción", ylab = "Precio por pie cuadrado")
+```
+
+Los precios más altos se decantan, con excepciones, en las propiedades más recientes, esto nos indica cómo la antigüedad es importante en la determinación de precios, cabría analizar si irá a la par del año de renovación de la vivienda.
+
+
+```{r graficos4}
+plot(inmuebles$YearRemodAdd, inmuebles$PriceLotSquareFoot,pch=19,col="red", xlab = "Año de última renovación", ylab = "Precio por pie cuadrado")
+```
+
+
+Para completarlo, podemos analizar los rangos de precios según los años de venta:
+
+```{r graficos5}
+boxplot(inmuebles$PriceLotSquareFoot~inmuebles$YrSold,col="gold",xlab="Año",ylab="Precios por pie cuadrado",
+        main="Precios medios de venta por año")
+
+```
+
+
+
+### 6. Resolución del problema. A partir de los resultados obtenidos, ¿cuáles son las conclusiones? ¿Los resultados permiten responder al problema?
+
+El análisis de los datos de venta de viviendas nos ha permitido identificar los factores más influyentes en el precio, así como analizar por zonas y por equipamiento de los inmuebles.
+
+Los distintos modelos probados nos han dado una aproximación a la tasación de viviendas, siendo útiles tanto para vendedores, que conocen cuáles son los precios medios demandados según la ubicación y características de la vivienda, como para compradores, para optimizar sus búsquedas según deseos y poder adquisitivo.
+
+Los datos han permitido implementar unos modelos lineales básicos para ello, además de permitirnos visualizar la evolución de precios.
+
+Se confirman hipótesis iniciales del mundo inmobiliario, como es la importancia determinante de la localización, vencindarios y proximidad a infraestructuras, por encima de otras consideraciones como materiales de construcción y, en algunos casos, hasta el estado de la vivienda. 
+
+
+
+### 7. Código: Hay que adjuntar el código, preferiblemente en R, con el que se ha realizado la limpieza, análisis y representación de los datos. 
+
+La práctica ha sido implementada en código R, empleado la herramienta RStudio, formateando los resultados finales con *rmarkdown*. 
+
+El codigo, fichero rmd, Practica2_topología_jperezsanchez.Rmd,  se encuentra en el repositorio github de la practica. Con él se ha generado el documento pdf principal entregable de la práctica.
+
+Se han empleado las librerías R: RCurl, VIM, nortest, magrittr y dplyr.
+
+Algunos scripts más largos se han mutado en el documento generado con la opción ECHO = FALSE, pero es consultable en el fichero Rmd.
+
+El script al ejecutarse descarga los datos directamente del fichero csv de github, para cambiar a lectura local hay que descomentar la línea:
+
+ -- inmuebles <- read.csv("Datos-Inmuebles.csv")
+
+y comentar las líneas:
+
+ downF <- getURL("https://raw.githubusercontent.com/jperezsanchezU/house-prices-advanced-regression-techniques/master/csv/Datos-Inmuebles.csv")
+ inmuebles <- read.csv(text = downF)
+
+
+
+
+## Recursos
+
+Los siguientes recursos son de utilidad para la realización de la práctica:
+
+??? Megan Squire (2015). Clean Data. Packt Publishing Ltd.
+
+??? Jiawei Han, Micheine Kamber, Jian Pei (2012). Data mining: concepts and techniques. Morgan Kaufmann.
+
+??? Jason W. Osborne (2010). Data Cleaning Basics: Best Practices in Dealing with Extreme Scores. Newborn and Infant Nursing Reviews; 10 (1): pp. 1527-3369 .
+
+??? Peter Dalgaard (2008). Introductory statistics with R. Springer Science &Business Media.
+
+??? Wes McKinney (2012). Python for Data Analysis. Oâ€™Reilley Media, Inc.
+
+??? Tutorial de Github https://guides.github.com/activities/hello-world.
+
+??? Dataset de Precios de Casas en *kaggle* [House Prices: Advanced Regression Techniques](https://www.kaggle.com/c/house-prices-advanced-regression-techniques)
+
+
+
+
