@@ -455,7 +455,7 @@ GarageCond: Estado del garaje
 PavedDrive: Entrada de vehículos pavimentada
 
        Y	Pavimentada
-       P	Partilmente pavimentada
+       P	Parcialmente pavimentada
        N	Nada, gravilla
 		
 WoodDeckSF: Área de terraza de madera en pies cuadrados
@@ -535,47 +535,51 @@ Los datos provistos parecen bastante completos, si bien en muchos de los datos c
 
 #### 3.1. ¿Los datos contienen ceros o elementos vacíos? ¿Cómo gestionarías cada uno de estos casos?
 
-Varios datos cualitativos y cuantitativos vienen con datos NA, en el caso de que no disponga de ese atributo (garaje, etc..). A tratar con reemplazo por 0, o bien filtrando elementos.
+En el caso de ciertos datos ausentes se han aproximado según los k vecinos más cercanos y se ha realizado una selección de datos más significativos, su completitud también ha sido un factor para tenerlos presentes.
 
 #### 3.2. Identificación y tratamiento de valores extremos.
 
-Comprobar valores extremos, en tamaño de la propiedad, precios, etc.. 
-
-Utilización de boxplots, a partir de distintas agrupaciones, vecindarios etc...
+Se han comprobado valor outliers y se han mostrado distintos boxplots para analizar la dispersión de los datos.
 
 ### 4. Análisis de los datos.
 
-#### 4.1. Selección de los grupos de datos que se quieren analizar/comparar (planificación de los análisis a aplicar).
-
-Agrupación por tipos de viviendas, por vecindarios, etc...
-
-
-#### 4.2. Comprobación de la normalidad y homogeneidad de la varianza.
-
-A implementar contraste de hipótesis
-
-#### 4.3. Aplicación de pruebas estadísticas para comparar los grupos de datos.
-
-En función de los datos y el objetivo del estudio, aplicar pruebas de contraste de hipótesis, correlaciones, regresiones, etc.
-
-Se trata de descubrir qué características de la vivienda afectan más al cálculo final del precio de la vivienda.
-
+En el documento de la práctica adjunto se han implementado distintos análisis y se han realizado algunos modelos lineales para aproximar los precios según distintas características de las viviendas.
 
 ### 5. Representación de los resultados a partir de tablas y gráficas.
 
-A realizar
+En el documento de la práctica adjunto se han implementado distintas gráficas relativas a los datos analizados.
 
 ### 6. Resolución del problema. A partir de los resultados obtenidos, ¿cuáles son las conclusiones? ¿Los resultados permiten responder al problema?
 
-Descripción de factores principales del efecto de la vivienda.
+El análisis de los datos de venta de viviendas nos ha permitido identificar los factores más influyentes en el precio, así como analizar por zonas y por equipamiento de los inmuebles.
 
-Realizar varios contrastes de hipótesis
+Los distintos modelos probados nos han dado una aproximación a la tasación de viviendas, siendo útiles tanto para vendedores, que conocen cuáles son los precios medios demandados según la ubicación y características de la vivienda, como para compradores, para optimizar sus búsquedas según deseos y poder adquisitivo.
+
+Los datos han permitido implementar unos modelos lineales básicos para ello, además de permitirnos visualizar la evolución de precios.
+
+Se confirman hipótesis iniciales del mundo inmobiliario, como es la importancia determinante de la localización, vencindarios y proximidad a infraestructuras, por encima de otras consideraciones como materiales de construcción y, en algunos casos, hasta el estado de la vivienda. 
+
 
 
 
 ### 7. Código: Hay que adjuntar el código, preferiblemente en R, con el que se ha realizado la limpieza, análisis y representación de los datos. 
 
-La práctica será realizada en código R, empleado la herramienta RStudio, formateando los resultados finales con *rmarkdown*. 
+La práctica ha sido implementada en código R, empleado la herramienta RStudio, formateando los resultados finales con *rmarkdown*. 
+
+El codigo, fichero rmd, Practica1_topología_jperezsanchez.Rmd,  se encuentra en el repositorio github de la practica. Con él se ha generado el documento pdf principal entregable de la práctica.
+
+Se han empleado las librerías R: RCurl, VIM, nortest, magrittr y dplyr.
+
+Algunos scripts más largos se han mutado en el documento generado con la opción ECHO = FALSE, pero es consultable en el fichero Rmd. Éste ha sido codificado en utf-8.
+
+El script al ejecutarse descarga los datos directamente del fichero csv de github, para cambiar a lectura local hay que descomentar la línea:
+
+ -- inmuebles <- read.csv("Datos-Inmuebles.csv")
+
+y comentar las líneas:
+
+ downF <- getURL("https://raw.githubusercontent.com/jperezsanchezU/house-prices-advanced-regression-techniques/master/csv/Datos-Inmuebles.csv")
+ inmuebles <- read.csv(text = downF)
 
 
 
