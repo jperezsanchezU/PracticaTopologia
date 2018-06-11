@@ -6,7 +6,7 @@ Se analizarán los datos de precios de vivienda con el objetivo de poder generar
 
 Para ello se empleará un dataset de la web kaggle sobre inmuebles, de la competición House Prices: Advanced Regression Techniques.
 
-La descargar, limpieza y análisis de datos se hará en código R, documentándolo con rmarkdown. Se adjuntan en la propia cuenta github los ficheros fuente, Practica1_topología_jperezsanchez.Rmd y el generado pdf.
+La descargar, limpieza y análisis de datos se hará en código R, documentándolo con rmarkdown. Se adjuntan en la propia cuenta github los ficheros fuente, Practica2_topología_jperezsanchez.Rmd y el generado pdf.
 
 # House Prices: Advanced Regression Techniques
 
@@ -576,7 +576,7 @@ Se confirman hipótesis iniciales del mundo inmobiliario, como es la importancia
 
 La práctica ha sido implementada en código R, empleado la herramienta RStudio, formateando los resultados finales con *rmarkdown*. 
 
-El codigo, fichero rmd, Practica1_topología_jperezsanchez.Rmd,  se encuentra en el repositorio github de la practica. Con él se ha generado el documento pdf principal entregable de la práctica.
+El codigo, fichero rmd, Practica2_topología_jperezsanchez.Rmd,  se encuentra en el repositorio github de la practica. Con él se ha generado el documento pdf principal entregable de la práctica.
 
 Se han empleado las librerías R: RCurl, VIM, nortest, magrittr y dplyr.
 
